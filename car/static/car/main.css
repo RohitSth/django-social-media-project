@@ -1,0 +1,78 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: black;
+}
+
+.navbar {
+  background-color: black;
+}
+
+.navbar-brand {
+  color: #007bff;
+}
+
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  display: flex;
+  /* Align items in a row */
+  align-items: center;
+  /* Center vertically */
+  padding: 19px;
+  text-decoration: none;
+  font-size: 17px;
+  color: #ffffff;
+  transition: 0.3s;
+  line-height: 24px;
+}
+
+.sidenav a i {
+  /* Styles for icons */
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.sidenav a:hover {
+  background-color: black;
+  box-shadow: 0 0 10px 2px #fff;
+}
+
+.container-main {
+  margin-left: 250px;
+  padding: 20px;
+}
+
+@media (max-width: 900px) {
+  .sidenav {
+      width: 60px;
+  }
+
+  .sidenav a{
+      padding: 19px 19px;
+      font-size: 0;/* Hide text */
+  }
+
+  .sidenav .btn{
+      font-size: 0;/* Hide text */
+  }
+
+  .sidenav a i {
+      font-size: 24px;/* Keep the size of icons */
+      flex-shrink: 0;
+  }
+
+  .container-main {
+      margin-left: 60px;
+  }
+}

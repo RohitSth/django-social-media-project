@@ -1,0 +1,28 @@
+{% extends "car/base.html" %} <!--Extending base template-->
+{% load crispy_forms_tags %} <!--allows using crispy filters for the form-->
+{% block content %}
+    <div class="content-section bg-dark text-light border border-dark p-4 rounded">
+        <div class="d-flex align-items-center">
+            <img style="border-radius: 50%; width: 100px; height: 100px; object-fit: cover;" src="{{ user.profile.image.url }}">
+            <!-- Gives the current logged-in user's profile pic -->
+            <div style="margin-left: 4px;">
+                <h2 class="account-heading text-light">{{ user.username }}</h2>
+                <!-- Gives the current logged-in user's username -->
+                <p class="text-secondary">{{ user.email }}</p>
+                <!-- Gives the current logged-in user's email -->
+            </div>
+        </div>
+        <form method="POST" enctype="multipart/form-data" class="mt-4">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Profile Info</legend>
+                {{ u_form|crispy }}
+                {{ p_form|crispy }}
+            </fieldset>
+            <div class="d-flex mt-2">
+                <button class="btn btn-outline-info mr-2" type="submit">Update</button>
+                <a href="{% url 'profile' %}" class="btn btn-outline-info" style="margin-left: 6px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

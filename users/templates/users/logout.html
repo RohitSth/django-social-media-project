@@ -1,0 +1,11 @@
+{% extends "car/base.html" %}
+{% block content %}
+    <div class="container my-5">
+        <div class="card bg-dark text-white p-4">
+            <h2 class="text-info mb-4">You have been logged out!</h2>
+            <div class="border-top pt-3">
+                <small class="text-light">Sign in again? <a href="{% url 'login' %}" style="text-decoration: none;" class="text-info">Sign In</a></small>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

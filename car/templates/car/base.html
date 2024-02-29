@@ -1,0 +1,174 @@
+{% load static %} <!--Loading the static file for main.css-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'car/main.css' %}">
+    <!-- This will generate an absolute URL of the static files and access the main.css -->
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+        }
+
+        .navbar {
+            background-color: black;
+        }
+
+        .navbar-brand {
+            color: #007bff;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: black;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            display: flex;
+            /* Align items in a row */
+            align-items: center;
+            /* Center vertically */
+            padding: 19px;
+            text-decoration: none;
+            font-size: 17px;
+            color: #ffffff;
+            transition: 0.3s;
+            line-height: 24px;
+        }
+
+        .sidenav a i {
+            /* Styles for icons */
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .sidenav a:hover {
+            background-color: black;
+            box-shadow: 0 0 10px 2px #fff;
+        }
+
+        .container-main {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .sidenav {
+                width: 60px;
+            }
+
+            .sidenav a{
+                padding: 19px 19px;
+                font-size: 0;/* Hide text */
+            }
+
+            .sidenav .btn{
+                font-size: 0;/* Hide text */
+            }
+
+            .sidenav a i {
+                font-size: 24px;/* Keep the size of icons */
+                flex-shrink: 0;
+            }
+
+            .container-main {
+                margin-left: 60px;
+            }
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/697f4869c5.js" crossorigin="anonymous"></script>
+
+
+    {% if title %}
+    <title>Car - {{title}}</title>
+    {% else %}
+    <title>Car</title>
+    {% endif %}
+
+
+
+
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">
+                    <img style="border-radius: 50%; width: 40px; height: 40px; object-fit: cover; position: absolute; top: 6px; right: 10px;"
+                        src="{{ user.profile.image.url }}"><!-- Gives the current logged-in user-->
+                </a>
+            {% endif %}
+            <div class="container" style="justify-content: center;">
+                <a class="navbar-brand" href="{% url 'car-home' %}">CARBOOK</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="sidenav" id="mySidenav">
+        <a href="{% url 'car-home' %}"><i class="fas fa-home"></i> Home</a>
+        <a href="{% url 'car-about' %}"><i class="fa-sharp fa-solid fa-circle-info"></i> About</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'post-create' %}"><i class="fa-solid fa-circle-plus"></i> Add Post</a>
+        <a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <a><button type="submit" class="btn" style="color: red; margin-left: -13px;"><i
+                        class="fas fa-right-from-bracket"></i>Logout</button></a>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}" style="color: aqua;"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="{% url 'register' %}" style="color: aqua;"><i class="fas fa-user-plus"></i> Register</a>
+        {% endif %}
+    </div>
+
+
+    <div class="container-main" style="padding-top: 70px;">
+        <div class="row">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

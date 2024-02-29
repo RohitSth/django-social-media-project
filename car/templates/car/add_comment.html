@@ -1,0 +1,17 @@
+{% extends "car/base.html" %} <!--Extending base template-->
+{% load crispy_forms_tags %} <!--allows to use crispy filters to the form-->
+{% block content %}
+    <div class="content-section bg-dark text-light border border-dark p-4 rounded">
+        <form method="POST" enctype="multipart/form-data">
+             {% csrf_token %} <!--protect our form against certain attacks -->
+             <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Add a Comment</legend>
+                {{ form|crispy }}
+             </fieldset>
+             <div class="form-group mt-2">
+                <button class="btn btn-outline-info" type="submit">Comment</button>
+                <a class="btn btn-outline-info" href="{% url 'car-home' %}">Cancel</a>
+             </div>
+        </form>
+    </div>
+{% endblock content %}

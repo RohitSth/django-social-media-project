@@ -1,0 +1,67 @@
+{% extends "car/base.html" %} <!--Extending base template-->
+{% load static %}
+{% block content %}
+<h2 class="mb-3 text-light">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h2>
+    <div class="row d-flex justify-content-center align-items-center">
+        {% for post in posts %}
+            <div class="col-md-9 col-sm-12 mb-4">
+                <div class="card bg-dark text-light">
+                    <div class="media ml-2 mt-1 mb-1">
+                        <img style="border-radius: 50%; width: 50px; height: 50px; object-fit: cover;"
+                            src="{{ post.owner.profile.image.url }}">
+                        <strong class="account-heading" style="color: #007bff;">{{ post.owner.username }}</strong>
+                        <!--Gives the owner's username-->
+                        <small style="color: lightgray;"> • {{ post.date_posted|date:"F d, Y" }}</small>
+                    </div>
+                    <a href="{% url 'post-detail' post.id %}">
+                        {% if post.car_image %}
+                            <img src="{{ post.car_image.url }}" alt="{{ post.car_name }}" class="card-img-top">
+                        {% else %}
+                            <img src="{% get_media_prefix %}default_car.jpg" alt="{{ post.car_name }}" class="card-img-top">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h6> <a class="card-title" style="text-decoration: none; color: white;" href="{% url 'post-detail' post.id %}"> {{ post.brand }} {{ post.car_name }}</a></h6>
+                        <p> {{post.content}} </p>
+                        <hr>
+                        <small style="color: aliceblue;">
+                            {{post.number_of_likes}}
+                            {% if user in post.likes.all %}
+                            <a href="{% url 'post_like' post.id %}" style="text-decoration: none;">
+                                <i class="fa-solid fa-heart" style="color: red;"></i>
+                            </a>
+                            {% else %}
+                                <a href="{% url 'post_like' post.id %}" style="text-decoration: none;">
+                                    <i class="fa fa-heart-o" style="color: red;"></i>
+                                </a>
+                            {% endif %}
+                            &ensp; <!--2 space gap-->
+                            <a href="{% url 'post-detail' post.id %}" style="text-decoration: none; color: blue;">{{ post.number_of_comments }} <i class="fa-solid fa-comment"></i></a><br>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+        
+    {% endif %}
+{% endblock content %}
